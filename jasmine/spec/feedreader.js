@@ -41,6 +41,7 @@ $(function() {
                 expect(feed.name).not.toBe("");
             });
         });
+        
     });
 
     /* TODO: 写一个叫做 "The menu" 的测试用例 */
@@ -69,6 +70,7 @@ $(function() {
             menuIcon.click();
             expect($('body').attr('class')).toBe('menu-hidden');
         });
+
     });
 
     /* TODO: 13. 写一个叫做 "Initial Entries" 的测试用例 */
@@ -101,16 +103,31 @@ $(function() {
      * 通过对比默认情况下feed list文章的title和随机加载后rss feed list文章的title来判断内容是否改变
      */
     describe('New Feed Selection', function() {
-        var entry = $('.feed .entry h2');
-        var title = $(entry[0]).text();
         var num = $('.feed-list li').length;
-        var id = Math.floor(Math.random() * (num-1)+1);//随机选择一个不属于默认情况的rss。
-        beforeEach(function(done) {
-            loadFeed(id, done);
+        var title, titleNew;
+        var id = Math.floor(Math.random() * (num - 1) + 1); //随机选择一个不属于默认情况的rss。
+        console.log(id);
+        beforeAll(function(done) {
+            loadFeed(0, function() {
+                title = $($('.feed .entry h2')[0]).text();
+                done();
+            });
+
         });
+
+        beforeAll(function(done) {
+            loadFeed(id, function() {
+                titleNew = $($('.feed .entry h2')[0]).text();
+                done();
+            });
+
+        });
+
         it('change the content', function(done) {
-            expect($($('.feed .entry h2')[0]).text).not.toBe(title);
+            expect(titleNew).not.toBe(title);
             done();
         });
+
     });
+
 }());
