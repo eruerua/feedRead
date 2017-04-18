@@ -98,12 +98,13 @@ $(function() {
     /* TODO:
      * 写一个测试保证当用 loadFeed 函数加载一个新源的时候内容会真的改变。
      * 记住，loadFeed() 函数是异步的。
+     * 通过对比默认情况下feed list文章的title和随机加载后rss feed list文章的title来判断内容是否改变
      */
     describe('New Feed Selection', function() {
         var entry = $('.feed .entry h2');
         var title = $(entry[0]).text();
         var num = $('.feed-list li').length;
-        var id = Math.floor(Math.random() * (num));
+        var id = Math.floor(Math.random() * (num-1)+1);//随机选择一个不属于默认情况的rss。
         beforeEach(function(done) {
             loadFeed(id, done);
         });
