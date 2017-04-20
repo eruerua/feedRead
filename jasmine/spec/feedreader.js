@@ -18,7 +18,7 @@ $(function() {
          */
         it('are defined', function() {
             expect(allFeeds).toBeDefined();
-            expect(allFeeds.length).not.toBe(0);
+            expect(allFeeds.length).toBeGreaterThan(0);
         });
 
         /* TODO:
@@ -27,7 +27,9 @@ $(function() {
         it('have url', function() {
             allFeeds.forEach(function(feed) {
                 expect(feed.url).toBeDefined();
-                expect(feed.url).not.toBe("");
+                // expect(feed.url).not.toBe("");
+                var regularExpressionUrl = /^((ht|f)tps?):\/\/([\w\-]+(\.[\w\-]+)*\/)*[\w\-]+(\.[\w\-]+)*\/?(\?([\w\-\.,@?^=%&:\/~\+#]*)+)?/; // 检查 URL 格式是否正确的正规表达式
+                expect(feed.url).toMatch(regularExpressionUrl); // 检查格式 参考审阅者的方法
             });
         });
 
@@ -66,9 +68,9 @@ $(function() {
 
         it('change the visible of list', function() {
             menuIcon.click();
-            expect($('body').attr('class')).not.toBe('menu-hidden');
+            expect($('body').hasClass('menu-hidden')).toBe(false);
             menuIcon.click();
-            expect($('body').attr('class')).toBe('menu-hidden');
+            expect($('body').hasClass('menu-hidden')).toBe(true);
         });
 
     });
@@ -88,9 +90,8 @@ $(function() {
             loadFeed(0, done);
         });
 
-        it('have at least one entry element', function(done) {
+        it('have at least one entry element', function() {
             expect($('.feed .entry').length).not.toBe(0);
-            done();
         });
 
     });
@@ -123,9 +124,8 @@ $(function() {
 
         });
 
-        it('change the content', function(done) {
+        it('change the content', function() {
             expect(titleNew).not.toBe(title);
-            done();
         });
 
     });
